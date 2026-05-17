@@ -1,0 +1,535 @@
+/* ============================================================
+   Lead Within Academy — Homepage stylesheet
+   Single file. ~500 lines. No third-party libraries.
+   No glassmorphism, no glow, no parallax, no gradients.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg:            #f7f2e6;
+  --surface:       #fbf6e9;
+  --surface-sunk:  #ede5d0;
+
+  /* Lines */
+  --line:          #ddd5be;
+  --line-soft:     #e8e0c8;
+
+  /* Type */
+  --text:          #0c1325;
+  --text-mute:     #4b5468;
+  --text-faint:    #7d8595;
+
+  /* Accent — used in exactly three places */
+  --gold:          #b48c47;
+  --gold-dark:     #8a6a35;
+
+  /* Buttons */
+  --btn-bg:        #0a0d18;
+  --btn-fg:        #f7f2e6;
+
+  /* Fonts */
+  --font-display:  'Fraunces', Georgia, serif;
+  --font-body:     'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Spacing scale */
+  --s-1:  8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-5: 48px;
+  --s-6: 64px;
+  --s-7: 96px;
+  --s-8: 128px;
+
+  /* Containers */
+  --wrap-max:    1120px;
+  --wrap-narrow:  680px;
+
+  /* Motion */
+  --ease:        cubic-bezier(.22,.61,.36,1);
+  --t-quick:     200ms;
+  --t-medium:    360ms;
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+ul, ol, dl { padding: 0; margin: 0; list-style: none; }
+blockquote { margin: 0; padding: 0; }
+figure { margin: 0; }
+::selection { background: var(--gold); color: var(--bg); }
+
+/* ============================================================
+   Type scale
+   ============================================================ */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 0;
+}
+h1 { font-size: 56px; line-height: 1.04; letter-spacing: -0.02em; }
+h2 { font-size: 36px; }
+h3 { font-size: 22px; line-height: 1.25; }
+@media (max-width: 880px) {
+  h1 { font-size: 40px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 20px; }
+}
+
+p { margin: 0; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin: 0 0 var(--s-3);
+}
+
+.lead {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 60ch;
+}
+@media (max-width: 760px) { .lead { font-size: 18px; } }
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+.wrap        { max-width: var(--wrap-max);    margin: 0 auto; padding: 0 var(--s-3); }
+.wrap-narrow { max-width: var(--wrap-narrow); margin: 0 auto; padding: 0 var(--s-3); }
+
+.section { padding: var(--s-7) 0; }
+@media (min-width: 880px) { .section { padding: var(--s-8) 0; } }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  font: 500 14px/1 var(--font-body);
+  letter-spacing: 0.01em;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: background var(--t-quick) var(--ease),
+              color var(--t-quick) var(--ease),
+              border-color var(--t-quick) var(--ease);
+  white-space: nowrap;
+}
+.btn-primary {
+  position: relative;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  left: 22px; right: 22px; bottom: 8px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--t-medium) var(--ease);
+}
+.btn-primary:hover::after,
+.btn-primary:focus-visible::after { transform: scaleX(1); }
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--text);
+}
+.btn-ghost:hover,
+.btn-ghost:focus-visible { border-color: var(--text); }
+
+.actions { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-4); }
+.actions-centred { justify-content: center; }
+
+/* ============================================================
+   Topbar (inline)
+   ============================================================ */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(247, 242, 230, 0.92);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--s-3);
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: -0.005em;
+  color: var(--text);
+}
+.brand small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  display: block;
+  margin-top: 2px;
+}
+.topbar .btn { padding: 10px 16px; font-size: 13px; }
+
+/* ============================================================
+   Cards
+   ============================================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+}
+.card .pill {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 5px 10px;
+  font: 500 11px/1.4 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: var(--surface-sunk);
+  color: var(--text-mute);
+  border-radius: 999px;
+}
+.card .price {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1;
+  margin-top: var(--s-2);
+}
+.card .price::before {
+  content: '£';
+  font-size: 18px;
+  color: var(--text-mute);
+  vertical-align: top;
+  margin-right: 4px;
+}
+.card h3 { margin-top: var(--s-2); }
+.card-meta { margin-top: var(--s-3); }
+.card-meta dt {
+  font: 500 10px/1.4 var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: var(--s-3);
+}
+.card-meta dd {
+  margin: 4px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.card-meta dd ul { margin-top: 4px; }
+.card-meta dd li {
+  padding: 4px 0;
+  font-size: 14px;
+  color: var(--text-mute);
+  position: relative;
+  padding-left: 14px;
+}
+.card-meta dd li::before {
+  content: '—';
+  position: absolute; left: 0;
+  color: var(--gold);
+}
+.card .btn { margin-top: var(--s-4); align-self: flex-start; }
+.card-flagship { border-color: var(--gold); }
+.card-flagship .pill {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* ============================================================
+   Section · HERO
+   ============================================================ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-6);
+  align-items: center;
+}
+@media (min-width: 880px) {
+  .hero-grid { grid-template-columns: 1fr 1fr; gap: var(--s-7); }
+}
+.hero-portrait {
+  aspect-ratio: 4/5;
+  background: var(--surface-sunk);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.hero-portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ============================================================
+   Section · FOUNDER CREDIBILITY LINE
+   ============================================================ */
+.section-founder-line {
+  padding: var(--s-7) 0;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+.section-founder-line blockquote p {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--text);
+}
+@media (max-width: 760px) { .section-founder-line blockquote p { font-size: 19px; } }
+.section-founder-line .attr {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-top: var(--s-3);
+}
+
+/* ============================================================
+   Section · PROBLEM
+   ============================================================ */
+.problems {
+  display: grid;
+  margin-top: var(--s-5);
+  max-width: 760px;
+}
+.problem {
+  padding: var(--s-3) 0;
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.35;
+}
+.problems .problem:last-child { border-bottom: 1px solid var(--line-soft); }
+@media (max-width: 760px) { .problem { font-size: 19px; } }
+
+/* ============================================================
+   Section · HOW IT WORKS
+   ============================================================ */
+.steps {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+  margin-top: var(--s-6);
+}
+@media (min-width: 880px) {
+  .steps { grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+}
+.step .num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+.step h3 { margin-top: var(--s-2); }
+.step p { margin-top: var(--s-2); color: var(--text-mute); }
+
+/* ============================================================
+   Section · SKILLS
+   ============================================================ */
+.skills {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: var(--s-6);
+}
+@media (min-width: 760px) {
+  .skills { grid-template-columns: 1fr 1fr; column-gap: var(--s-6); }
+}
+.skill {
+  padding: var(--s-3) 0;
+  border-top: 1px solid var(--line-soft);
+}
+.skill .name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text);
+}
+.skill .desc {
+  color: var(--text-mute);
+  margin-top: 4px;
+}
+
+/* ============================================================
+   Section · PROGRAMMES
+   ============================================================ */
+.programme-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--s-6);
+}
+@media (min-width: 880px) {
+  .programme-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.programmes-note {
+  margin-top: var(--s-5);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-mute);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Section · CASES
+   ============================================================ */
+.cases {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-6);
+}
+.case {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 880px) {
+  .case {
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--s-6);
+    align-items: start;
+  }
+  .case:nth-child(even) .case-image { order: 2; }
+}
+.case-image {
+  aspect-ratio: 4/5;
+  background: var(--surface-sunk);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.case-image img { width: 100%; height: 100%; object-fit: cover; }
+.case-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: var(--s-3);
+}
+.case-row {
+  padding: var(--s-2) 0;
+  border-top: 1px solid var(--line-soft);
+}
+.case-row .label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.case-row .text {
+  margin-top: 4px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* ============================================================
+   Section · CLOSING (From Benjamin)
+   ============================================================ */
+.closing {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-6);
+}
+@media (min-width: 880px) {
+  .closing {
+    grid-template-columns: 1fr 1.05fr;
+    gap: var(--s-7);
+    align-items: center;
+  }
+}
+.closing-portrait {
+  aspect-ratio: 4/5;
+  background: var(--surface-sunk);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.closing-portrait img { width: 100%; height: 100%; object-fit: cover; }
+.closing-copy .signature {
+  margin-top: var(--s-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+/* ============================================================
+   Section · FINAL CTA
+   ============================================================ */
+.final-cta { text-align: center; }
+.final-cta .gold-rule {
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--gold);
+  margin: 0 auto var(--s-4);
+}
+.final-cta .lead { margin: var(--s-3) auto 0; }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.foot {
+  border-top: 1px solid var(--line-soft);
+  padding: var(--s-5) 0 var(--s-6);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+.foot-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+.foot a { color: var(--text-mute); }
+.foot a:hover { color: var(--text); }
+
+/* ============================================================
+   Reveal motion · single pattern, page-wide
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 420ms var(--ease), transform 420ms var(--ease);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+  .btn-primary::after { transition: none; }
+}

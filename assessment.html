@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<title>Pattern Assessment — Pattern to Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/styles.css">
+<style>
+  .assess-shell { max-width: 760px; margin: 0 auto; padding: 48px 0 120px; }
+  .assess-meta  { display:flex; align-items:center; justify-content:space-between; margin-bottom: 40px; }
+  .panel        { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(28px, 4vw, 48px); background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); }
+  .panel + .panel { margin-top: 24px; }
+  .qheader      { font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; letter-spacing: -0.01em; max-width: 28ch; }
+  .footer-bar   { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 16px; flex-wrap: wrap; }
+  .skip-link    { color: var(--text-muted); font-size: 13px; }
+  .stage-out    { display: none; }
+  .stage-in     { display: block; }
+  .scale-meta   { display: flex; justify-content: space-between; color: var(--text-faint); font-size: 12px; margin-top: 12px; }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+
+<main class="assess-shell wrap">
+  <div class="assess-meta">
+    <span class="eyebrow">The Pattern Assessment</span>
+    <span class="muted mono" id="step-counter" style="font-size: 12px;">Step 1 of 6</span>
+  </div>
+
+  <div class="steps" id="steps" style="margin-bottom: 28px;"></div>
+
+  <!-- STEP 1 — basic info -->
+  <section class="panel stage stage-in" data-step="1">
+    <p class="qheader">First, a few quick details.</p>
+    <p class="muted" style="margin-top:10px;">This stays private. We use it only to send your Pattern Profile and tune your programme.</p>
+    <div class="grid cols-2" style="margin-top:32px;">
+      <div class="field"><label>Full name</label><input class="input" id="f-name" placeholder="e.g. Alex Morgan"></div>
+      <div class="field"><label>Email</label><input class="input" id="f-email" type="email" placeholder="you@example.com"></div>
+      <div class="field"><label>Age range</label>
+        <select class="select" id="f-age">
+          <option value="">Select…</option>
+          <option>25–34</option><option>35–44</option><option>45–54</option><option>55+</option>
+        </select>
+      </div>
+      <div class="field"><label>Current role</label><input class="input" id="f-role" placeholder="e.g. Senior Manager, Founder"></div>
+    </div>
+    <div class="footer-bar">
+      <a href="./index.html" class="skip-link">← back to home</a>
+      <button class="btn btn-primary" data-next>Continue <span class="arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 2 — context -->
+  <section class="panel stage stage-out" data-step="2">
+    <p class="qheader">Where are you in your career right now?</p>
+    <p class="muted" style="margin-top:10px;">Routes the system to challenges that fit your real situation.</p>
+
+    <div style="margin-top:28px;">
+      <label class="muted" style="font-size:13px; letter-spacing:0.04em;">CAREER STAGE</label>
+      <div class="choices choice-grid" id="ch-careerStage" style="margin-top:10px;">
+        <button class="choice" data-val="early"   role="checkbox" aria-checked="false"><div><div class="label">Early career</div><div class="sub">First 5 years of professional work</div></div><span class="check"></span></button>
+        <button class="choice" data-val="mid"     role="checkbox" aria-checked="false"><div><div class="label">Mid career</div><div class="sub">Strong contributor / first-line manager</div></div><span class="check"></span></button>
+        <button class="choice" data-val="senior"  role="checkbox" aria-checked="false"><div><div class="label">Senior</div><div class="sub">Leading teams or functions</div></div><span class="check"></span></button>
+        <button class="choice" data-val="leader"  role="checkbox" aria-checked="false"><div><div class="label">Executive / founder</div><div class="sub">Setting direction for the business</div></div><span class="check"></span></button>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <label class="muted" style="font-size:13px; letter-spacing:0.04em;">WORK STYLE</label>
+      <div class="choices choice-grid" id="ch-workStyle" style="margin-top:10px;">
+        <button class="choice" data-val="office"  role="checkbox" aria-checked="false"><div><div class="label">Office</div><div class="sub">Most days in person</div></div><span class="check"></span></button>
+        <button class="choice" data-val="hybrid"  role="checkbox" aria-checked="false"><div><div class="label">Hybrid</div><div class="sub">Mixed in-person and remote</div></div><span class="check"></span></button>
+        <button class="choice" data-val="remote"  role="checkbox" aria-checked="false"><div><div class="label">Remote</div><div class="sub">Mostly home or distributed</div></div><span class="check"></span></button>
+        <button class="choice" data-val="founder" role="checkbox" aria-checked="false"><div><div class="label">Founder / self-employed</div><div class="sub">Setting your own structure</div></div><span class="check"></span></button>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <button class="btn btn-quiet" data-prev>← back</button>
+      <button class="btn btn-primary" data-next>Continue <span class="arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 3 — goal & challenge -->
+  <section class="panel stage stage-out" data-step="3">
+    <p class="qheader">What is the main thing in the way?</p>
+
+    <div style="margin-top:28px;">
+      <label class="muted" style="font-size:13px; letter-spacing:0.04em;">MAIN CHALLENGE</label>
+      <div class="choices choice-grid" id="ch-mainChallenge" style="margin-top:10px;">
+        <button class="choice" data-val="plateau"  role="checkbox" aria-checked="false"><div><div class="label">I keep hitting the same ceiling</div></div><span class="check"></span></button>
+        <button class="choice" data-val="pressure" role="checkbox" aria-checked="false"><div><div class="label">I am under pressure and unclear</div></div><span class="check"></span></button>
+        <button class="choice" data-val="confidence" role="checkbox" aria-checked="false"><div><div class="label">My confidence is not matching my role</div></div><span class="check"></span></button>
+        <button class="choice" data-val="direction"  role="checkbox" aria-checked="false"><div><div class="label">I have lost direction or momentum</div></div><span class="check"></span></button>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <label class="muted" style="font-size:13px; letter-spacing:0.04em;">MAIN GOAL FOR THE NEXT 90 DAYS</label>
+      <div class="choices choice-grid" id="ch-mainGoal" style="margin-top:10px;">
+        <button class="choice" data-val="authority"     role="checkbox" aria-checked="false"><div><div class="label">Lead with more authority</div></div><span class="check"></span></button>
+        <button class="choice" data-val="decisiveness"  role="checkbox" aria-checked="false"><div><div class="label">Move and decide faster</div></div><span class="check"></span></button>
+        <button class="choice" data-val="discipline"    role="checkbox" aria-checked="false"><div><div class="label">Hold standards under pressure</div></div><span class="check"></span></button>
+        <button class="choice" data-val="visibility"    role="checkbox" aria-checked="false"><div><div class="label">Be more visible and influential</div></div><span class="check"></span></button>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <button class="btn btn-quiet" data-prev>← back</button>
+      <button class="btn btn-primary" data-next>Continue <span class="arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 4 — recognised pattern + open text -->
+  <section class="panel stage stage-out" data-step="4">
+    <p class="qheader">Which pattern do you already half-recognise?</p>
+    <p class="muted" style="margin-top:10px;">Pick the one closest to what you suspect. Trust your instinct here.</p>
+    <div class="choices choice-grid" id="ch-recognisedPattern" style="margin-top:24px;">
+      <button class="choice" data-val="overthinker"   role="checkbox" aria-checked="false"><div><div class="label">The Overthinker</div><div class="sub">Thinks too much, acts too late</div></div><span class="check"></span></button>
+      <button class="choice" data-val="avoider"       role="checkbox" aria-checked="false"><div><div class="label">The Avoider</div><div class="sub">Dodges discomfort</div></div><span class="check"></span></button>
+      <button class="choice" data-val="overexplainer" role="checkbox" aria-checked="false"><div><div class="label">The Over-Explainer</div><div class="sub">Says too much, dilutes the point</div></div><span class="check"></span></button>
+      <button class="choice" data-val="performer"     role="checkbox" aria-checked="false"><div><div class="label">The Performer</div><div class="sub">Looks fine, feels under pressure</div></div><span class="check"></span></button>
+      <button class="choice" data-val="drifter"       role="checkbox" aria-checked="false"><div><div class="label">The Drifter</div><div class="sub">Capable but undirected</div></div><span class="check"></span></button>
+      <button class="choice" data-val="pleaser"       role="checkbox" aria-checked="false"><div><div class="label">The Pleaser</div><div class="sub">Says yes too often</div></div><span class="check"></span></button>
+      <button class="choice" data-val="silenttalent"  role="checkbox" aria-checked="false"><div><div class="label">The Silent Talent</div><div class="sub">Capable but hidden</div></div><span class="check"></span></button>
+      <button class="choice" data-val="reactor"       role="checkbox" aria-checked="false"><div><div class="label">The Reactor</div><div class="sub">Emotion drives the response</div></div><span class="check"></span></button>
+    </div>
+
+    <div class="field" style="margin-top:32px;">
+      <label>In two or three sentences, where does the pattern hurt you most?</label>
+      <textarea class="textarea" id="f-openText" placeholder="The more specific, the more accurate the profile."></textarea>
+    </div>
+
+    <div class="footer-bar">
+      <button class="btn btn-quiet" data-prev>← back</button>
+      <button class="btn btn-primary" data-next>Continue <span class="arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 5 — Likert items -->
+  <section class="panel stage stage-out" data-step="5">
+    <p class="qheader">Now the calibration.</p>
+    <p class="muted" style="margin-top:10px;">Rate each statement 1 (almost never) to 5 (almost always).</p>
+    <div id="likert-list" class="stack-lg" style="margin-top:36px;"></div>
+    <div class="footer-bar">
+      <button class="btn btn-quiet" data-prev>← back</button>
+      <button class="btn btn-primary" data-next id="likert-next" disabled>See my Pattern Profile <span class="arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 6 — generating -->
+  <section class="panel stage stage-out" data-step="6" style="text-align:center;">
+    <div style="margin: 32px 0;">
+      <div class="brand-mark" style="margin: 0 auto; width:48px; height:48px;">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l5-9 4 6 3-4 6 7H3z"/></svg>
+      </div>
+    </div>
+    <p class="qheader" style="margin: 0 auto;">Building your Pattern Profile.</p>
+    <p class="muted" style="margin-top: 14px;">Mapping your responses to pattern signatures and score areas.</p>
+    <div class="bar" style="max-width: 320px; margin: 32px auto 0;"><span id="gen-bar" style="width:5%;"></span></div>
+    <p class="faint" id="gen-msg" style="font-size: 13px; margin-top: 16px;">Reading your responses…</p>
+  </section>
+
+</main>
+
+<div data-footer></div>
+
+<script src="./assets/app.js"></script>
+<script>
+  // --------- state ---------
+  const totalSteps = 6;
+  let step = 1;
+  const data = {
+    user: { name:'', email:'', ageRange:'', role:'', careerStage:'', workStyle:'',
+            mainChallenge:'', mainGoal:'', recognisedPattern:'', openText:'' },
+    responses: {}
+  };
+
+  // restore any prior progress
+  const saved = PtP.load('user'); if (saved) Object.assign(data.user, saved);
+  const savedA = PtP.load('assessment'); if (savedA && savedA.responses) data.responses = savedA.responses;
+
+  // --------- step indicator ---------
+  function renderSteps() {
+    const el = document.getElementById('steps');
+    el.innerHTML = '';
+    for (let i = 1; i <= totalSteps; i++) {
+      const s = document.createElement('div');
+      s.className = 'step ' + (i < step ? 'done' : i === step ? 'active' : '');
+      el.appendChild(s);
+    }
+    document.getElementById('step-counter').textContent = `Step ${step} of ${totalSteps}`;
+  }
+
+  function goto(n) {
+    document.querySelectorAll('.stage').forEach(s => s.classList.remove('stage-in'));
+    document.querySelectorAll('.stage').forEach(s => s.classList.add('stage-out'));
+    const target = document.querySelector(`.stage[data-step="${n}"]`);
+    if (target) {
+      target.classList.remove('stage-out');
+      target.classList.add('stage-in');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    step = n; renderSteps();
+  }
+
+  // --------- choice tiles ---------
+  function bindChoices(groupId, key, allowMulti = false) {
+    const wrap = document.getElementById(groupId);
+    if (!wrap) return;
+    wrap.addEventListener('click', (e) => {
+      const btn = e.target.closest('.choice'); if (!btn) return;
+      if (!allowMulti) {
+        wrap.querySelectorAll('.choice').forEach(b => b.setAttribute('aria-checked','false'));
+        btn.setAttribute('aria-checked','true');
+        data.user[key] = btn.dataset.val;
+      } else {
+        const cur = btn.getAttribute('aria-checked') === 'true';
+        btn.setAttribute('aria-checked', cur ? 'false' : 'true');
+      }
+    });
+    // restore
+    if (data.user[key]) {
+      const b = wrap.querySelector(`.choice[data-val="${data.user[key]}"]`);
+      if (b) b.setAttribute('aria-checked','true');
+    }
+  }
+  bindChoices('ch-careerStage', 'careerStage');
+  bindChoices('ch-workStyle', 'workStyle');
+  bindChoices('ch-mainChallenge', 'mainChallenge');
+  bindChoices('ch-mainGoal', 'mainGoal');
+  bindChoices('ch-recognisedPattern', 'recognisedPattern');
+
+  // restore inputs
+  document.getElementById('f-name').value     = data.user.name;
+  document.getElementById('f-email').value    = data.user.email;
+  document.getElementById('f-age').value      = data.user.ageRange;
+  document.getElementById('f-role').value     = data.user.role;
+  document.getElementById('f-openText').value = data.user.openText;
+
+  // --------- likert items ---------
+  // shuffle a copy so people don't see all 'overthinker' together (preserve mapping by index)
+  const items = PtP.ASSESSMENT_ITEMS;
+  function renderLikert() {
+    const list = document.getElementById('likert-list');
+    list.innerHTML = '';
+    items.forEach((it, i) => {
+      const el = document.createElement('div');
+      el.innerHTML = `
+        <div style="font-size: 16px; line-height: 1.4; max-width: 56ch;">${it.q}</div>
+        <div class="scale" style="margin-top: 12px;" data-q="${i}">
+          ${[1,2,3,4,5].map(v => `<button data-v="${v}" aria-pressed="${data.responses[i] == v ? 'true' : 'false'}">${v}</button>`).join('')}
+        </div>
+        <div class="scale-meta"><span>Almost never</span><span>Almost always</span></div>
+      `;
+      list.appendChild(el);
+    });
+    list.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-v]'); if (!b) return;
+      const q = b.parentElement.dataset.q;
+      b.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      data.responses[q] = Number(b.dataset.v);
+      checkLikertReady();
+    }, { once: true });
+    // The 'once' above scoping prevents accumulating listeners on re-render.
+    checkLikertReady();
+  }
+  function checkLikertReady() {
+    const done = Object.keys(data.responses).length >= items.length;
+    document.getElementById('likert-next').disabled = !done;
+  }
+
+  // --------- nav ---------
+  document.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
+    if (step === 1) {
+      data.user.name     = document.getElementById('f-name').value.trim();
+      data.user.email    = document.getElementById('f-email').value.trim();
+      data.user.ageRange = document.getElementById('f-age').value;
+      data.user.role     = document.getElementById('f-role').value.trim();
+      if (!data.user.name || !data.user.email) { alert('Please complete name and email.'); return; }
+    }
+    if (step === 4) {
+      data.user.openText = document.getElementById('f-openText').value.trim();
+    }
+    PtP.save('user', data.user);
+    PtP.save('assessment', { responses: data.responses, completedAt: null });
+
+    if (step === 5) {
+      // compute and go to generating
+      goto(6); generate();
+      return;
+    }
+    if (step === 4) renderLikert(); // ensure rendered before showing
+    goto(step + 1);
+  }));
+
+  document.querySelectorAll('[data-prev]').forEach(b => b.addEventListener('click', () => goto(step - 1)));
+
+  function generate() {
+    PtP.save('assessment', { responses: data.responses, completedAt: new Date().toISOString() });
+    PtP.generatePatternProfile();
+    // BACKEND: PtP.submitAssessmentToBackend(data) and PtP.generatePatternProfileApi(...)
+    // visual delay so the result feels considered, not instant
+    const msgs = ['Reading your responses…','Mapping pattern signatures…','Calibrating score areas…','Identifying replacement behaviour…','Selecting your first challenge…'];
+    let p = 6, i = 0;
+    const bar = document.getElementById('gen-bar');
+    const msg = document.getElementById('gen-msg');
+    const t = setInterval(() => {
+      p = Math.min(100, p + 12 + Math.random() * 6);
+      bar.style.width = p + '%';
+      i = Math.min(msgs.length - 1, i + 1);
+      msg.textContent = msgs[i];
+      if (p >= 100) {
+        clearInterval(t);
+        setTimeout(() => location.href = './results.html', 380);
+      }
+    }, 320);
+  }
+
+  // initial render
+  // pre-render likert in case user goes directly to step 5 via back nav
+  renderLikert();
+  goto(1);
+</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<title>Founder Console — Pattern to Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/styles.css">
+<style>
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 980px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); }
+  .kpi .lbl { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+  .kpi .num { font-family: var(--font-display); font-size: 40px; line-height: 1; margin-top: 10px; }
+  .kpi .meta { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+  .kpi.danger { border-color: rgba(248, 113, 113, 0.35); background: rgba(248, 113, 113, 0.06); }
+  .kpi.danger .num { color: #fca5a5; }
+  .kpi.gold { border-color: var(--gold-line); background: var(--gold-soft); }
+  .kpi.gold .num { color: var(--gold-1); }
+
+  .grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
+  @media (max-width: 980px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .dist-row { display: grid; grid-template-columns: 200px 1fr 60px; gap: 16px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
+  .dist-row:last-child { border-bottom: 0; }
+  .dist-row .name { font-size: 14px; }
+  .dist-bar { height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+  .dist-bar .fill { display: block; height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-1)); border-radius: 999px; }
+  .dist-row .num { font-family: var(--font-display); text-align: right; font-size: 16px; }
+
+  .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .table th { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); color: var(--text-faint); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+  .table td { padding: 14px 10px; border-bottom: 1px solid var(--line-soft); }
+  .table tr:hover td { background: var(--surface); }
+
+  .filter-row { display: flex; gap: 10px; flex-wrap: wrap; padding: 14px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); width: fit-content; }
+  .filter-row button { padding: 6px 12px; border-radius: 999px; color: var(--text-muted); font-size: 13px; }
+  .filter-row button[aria-pressed="true"] { background: var(--gold); color: #0b0f1a; font-weight: 600; }
+
+  .health-bar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 10px; }
+  .health-bar div { height: 32px; border-radius: 4px; background: var(--surface-2); }
+  .health-bar div.green { background: linear-gradient(180deg, var(--teal), #4fd0bb); }
+  .health-bar div.amber { background: linear-gradient(180deg, var(--gold-1), var(--gold)); }
+  .health-bar div.red   { background: linear-gradient(180deg, #ef4444, #b91c1c); }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+
+<main class="wrap section-tight">
+
+  <div class="row between" style="align-items: flex-end;">
+    <div>
+      <span class="eyebrow">Founder console · admin preview</span>
+      <h1 style="margin-top: 14px;">The room from <em class="gold-em">your side</em>.</h1>
+      <p class="muted" style="margin-top: 14px; max-width: 56ch;">Cohort health, drop-off risk, pattern distribution, and where your time actually moves the needle.</p>
+    </div>
+    <div class="filter-row" role="tablist">
+      <button role="tab" aria-pressed="true">All cohorts</button>
+      <button role="tab" aria-pressed="false">Sprint</button>
+      <button role="tab" aria-pressed="false">Builder</button>
+      <button role="tab" aria-pressed="false">Transformation</button>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- KPI strip -->
+  <section class="kpi-grid">
+    <div class="kpi">
+      <div class="lbl">Total members</div>
+      <div class="num">147</div>
+      <div class="meta">+12 in the last 7 days</div>
+    </div>
+    <div class="kpi gold">
+      <div class="lbl">Active this week</div>
+      <div class="num">112</div>
+      <div class="meta">76% of members logged a rep or reflection</div>
+    </div>
+    <div class="kpi danger">
+      <div class="lbl">Drop-off risk</div>
+      <div class="num">9</div>
+      <div class="meta">No activity in 5+ days</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Programme NPS (90d)</div>
+      <div class="num">+72</div>
+      <div class="meta">Across last 3 cohorts</div>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <!-- Throughput strip -->
+  <section class="kpi-grid">
+    <div class="kpi">
+      <div class="lbl">Pattern Breakers · this week</div>
+      <div class="num">638</div>
+      <div class="meta">82% completion rate</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Golden Challenges done</div>
+      <div class="num">94</div>
+      <div class="meta">61 witnessed by peers</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Reflections submitted</div>
+      <div class="num">412</div>
+      <div class="meta">Daily 3.2 / wk · Weekly 0.84 / wk</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Median pattern frequency drop</div>
+      <div class="num">−43%</div>
+      <div class="meta">Day 0 → current</div>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <!-- Distributions -->
+  <section class="grid-2">
+    <div class="card">
+      <span class="kicker"><span class="dot"></span>Pattern distribution</span>
+      <div style="margin-top: 18px;" id="pattern-dist"></div>
+    </div>
+    <div class="card">
+      <span class="kicker"><span class="dot"></span>Programme distribution</span>
+      <div style="margin-top: 18px;" id="programme-dist"></div>
+      <div class="divider"></div>
+      <span class="kicker"><span class="dot"></span>Cohort health (last 7 days)</span>
+      <div class="health-bar">
+        <div class="green"></div><div class="green"></div><div class="green"></div><div class="amber"></div>
+        <div class="green"></div><div class="green"></div><div class="red"></div>
+      </div>
+      <div class="row between" style="margin-top: 10px; font-size: 12px; color: var(--text-faint);">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <!-- Members needing intervention -->
+  <section class="card">
+    <div class="row between">
+      <span class="kicker"><span class="dot"></span>Needs intervention</span>
+      <span class="muted mono" style="font-size: 12px;">Sorted by risk</span>
+    </div>
+    <div style="overflow-x: auto; margin-top: 14px;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Programme</th>
+            <th>Pattern</th>
+            <th>Day</th>
+            <th>Last activity</th>
+            <th>Reflection streak</th>
+            <th>Risk</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="risk-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <!-- Pattern Pack activity -->
+  <section class="card">
+    <div class="row between">
+      <span class="kicker"><span class="dot"></span>Pattern Pack activity</span>
+      <span class="muted mono" style="font-size: 12px;">Last 7 days</span>
+    </div>
+    <div style="overflow-x: auto; margin-top: 14px;">
+      <table class="table">
+        <thead>
+          <tr><th>Pack</th><th>Members</th><th>Posts</th><th>Witnessed reps</th><th>Avg streak</th><th>Health</th></tr>
+        </thead>
+        <tbody id="pack-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="spacer-lg"></div>
+</main>
+
+<div data-footer></div>
+
+<script src="./assets/app.js"></script>
+<script>
+  // distributions
+  const patternDist = [
+    { p: 'Overthinker',     c: 32 },
+    { p: 'Performer',       c: 24 },
+    { p: 'Avoider',         c: 21 },
+    { p: 'Pleaser',         c: 18 },
+    { p: 'Silent Talent',   c: 16 },
+    { p: 'Over-Explainer',  c: 14 },
+    { p: 'Drifter',         c: 13 },
+    { p: 'Reactor',         c: 9  },
+  ];
+  const totalP = patternDist.reduce((s, x) => s + x.c, 0);
+  const pdEl = document.getElementById('pattern-dist');
+  patternDist.forEach(x => {
+    const pct = Math.round(x.c / totalP * 100);
+    pdEl.innerHTML += `
+      <div class="dist-row">
+        <div class="name">The ${x.p}</div>
+        <div class="dist-bar"><span class="fill" style="width: ${pct}%;"></span></div>
+        <div class="num">${x.c}</div>
+      </div>`;
+  });
+
+  const progDist = [
+    { p: '30-Day Sprint',          c: 48, pct: 33 },
+    { p: '60-Day Builder',         c: 56, pct: 38 },
+    { p: '90-Day Transformation',  c: 43, pct: 29 },
+  ];
+  const pgEl = document.getElementById('programme-dist');
+  progDist.forEach(x => {
+    pgEl.innerHTML += `
+      <div class="dist-row">
+        <div class="name">${x.p}</div>
+        <div class="dist-bar"><span class="fill" style="width: ${x.pct}%;"></span></div>
+        <div class="num">${x.c}</div>
+      </div>`;
+  });
+
+  // risk table
+  const risks = [
+    { nm: 'M. Hassan',   prog: '60-Day Builder',         pat: 'Avoider',       day: 19, last: '6 days ago', streak: 3,  risk: 'High' },
+    { nm: 'L. Park',     prog: '30-Day Sprint',          pat: 'Pleaser',       day: 12, last: '5 days ago', streak: 4,  risk: 'High' },
+    { nm: 'O. Bennett',  prog: '90-Day Transformation',  pat: 'Drifter',       day: 41, last: '4 days ago', streak: 0,  risk: 'High' },
+    { nm: 'A. Tellez',   prog: '60-Day Builder',         pat: 'Overthinker',   day: 27, last: '3 days ago', streak: 8,  risk: 'Medium' },
+    { nm: 'C. Wright',   prog: '90-Day Transformation',  pat: 'Performer',     day: 56, last: '3 days ago', streak: 6,  risk: 'Medium' },
+    { nm: 'D. Patel',    prog: '30-Day Sprint',          pat: 'Silent Talent', day: 8,  last: '2 days ago', streak: 2,  risk: 'Medium' },
+  ];
+  const riskColor = { High: '#fca5a5', Medium: 'var(--gold-1)', Low: 'var(--teal)' };
+  const rEl = document.getElementById('risk-rows');
+  risks.forEach(r => {
+    rEl.innerHTML += `
+      <tr>
+        <td><div class="row" style="gap: 10px;"><div class="avatar" style="width:28px;height:28px;font-size:12px;">${r.nm.split(' ').map(w => w[0]).slice(0,2).join('')}</div>${r.nm}</div></td>
+        <td>${r.prog}</td>
+        <td>The ${r.pat}</td>
+        <td>${r.day}</td>
+        <td>${r.last}</td>
+        <td>${r.streak} days</td>
+        <td><span style="color: ${riskColor[r.risk]}; font-weight: 600; font-size: 13px;">●  ${r.risk}</span></td>
+        <td><button class="btn btn-ghost btn-sm">Send voice note</button></td>
+      </tr>`;
+  });
+
+  // packs
+  const packs = [
+    { p: 'Overthinker',     m: 8, posts: 27, w: 14, s: 18.4, h: 'green' },
+    { p: 'Performer',       m: 7, posts: 22, w: 11, s: 15.6, h: 'green' },
+    { p: 'Avoider',         m: 7, posts: 18, w:  9, s: 12.0, h: 'amber' },
+    { p: 'Pleaser',         m: 6, posts: 21, w: 12, s: 17.2, h: 'green' },
+    { p: 'Silent Talent',   m: 6, posts: 14, w:  6, s:  9.8, h: 'amber' },
+    { p: 'Over-Explainer',  m: 6, posts: 11, w:  4, s:  7.2, h: 'red' },
+    { p: 'Drifter',         m: 6, posts: 16, w:  7, s: 10.5, h: 'amber' },
+    { p: 'Reactor',         m: 5, posts: 12, w:  5, s:  8.9, h: 'green' },
+  ];
+  const pE = document.getElementById('pack-rows');
+  packs.forEach(p => {
+    const dot = { green: 'var(--teal)', amber: 'var(--gold-1)', red: '#fca5a5' }[p.h];
+    pE.innerHTML += `
+      <tr>
+        <td>The ${p.p} Pack</td>
+        <td>${p.m}</td>
+        <td>${p.posts}</td>
+        <td>${p.w}</td>
+        <td>${p.s}</td>
+        <td><span style="color: ${dot}; font-weight: 600;">●</span></td>
+      </tr>`;
+  });
+</script>
+</body>
+</html>

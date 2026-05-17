@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<title>Your Pattern Profile — Pattern to Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/styles.css">
+<style>
+  .result-hero { padding: 48px 0 0; }
+  .pattern-title { font-family: var(--font-display); font-size: clamp(48px, 7vw, 92px); line-height: 1; letter-spacing: -0.02em; margin-top: 16px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--gold-soft); border: 1px solid var(--gold-line);
+    color: var(--gold-1); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .badge .dot { width:6px; height:6px; border-radius:50%; background: var(--gold); }
+  .profile-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; margin-top: 56px; }
+  @media (max-width: 980px) { .profile-grid { grid-template-columns: 1fr; } }
+
+  .meaning { font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 32px); line-height: 1.3; letter-spacing: -0.01em; color: var(--text); }
+  .meaning + p { margin-top: 16px; color: var(--text-muted); }
+  .label-strip { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+  .triggers { display: grid; gap: 10px; margin-top: 16px; }
+  .triggers li { padding: 12px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); list-style: none; }
+  .secondary-row { display: flex; gap: 14px; align-items: center; margin-top: 28px; }
+  .secondary-row .av { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--surface-3), var(--surface-2)); display: grid; place-items: center; color: var(--gold-1); font-weight: 600; font-size: 16px; }
+  .freq-card { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .freq-num { font-family: var(--font-display); font-size: 64px; line-height: 1; }
+  .reco-banner {
+    margin-top: 56px;
+    border: 1px solid var(--gold-line);
+    background: linear-gradient(180deg, rgba(201,169,97,0.08), rgba(201,169,97,0));
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    display: flex; gap: 32px; align-items: center; justify-content: space-between;
+  }
+  @media (max-width: 760px) { .reco-banner { flex-direction: column; align-items: flex-start; gap: 20px; } }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+
+<main class="wrap result-hero">
+  <div class="row between" style="align-items:flex-end;">
+    <div>
+      <span class="eyebrow">Your Pattern Profile</span>
+      <div style="margin-top: 18px;">
+        <span class="badge"><span class="dot"></span>Primary pattern</span>
+      </div>
+      <h1 class="pattern-title" id="p-title">—</h1>
+      <p class="muted" id="p-one" style="font-size: 18px; max-width: 56ch; margin-top: 12px;">—</p>
+    </div>
+    <div class="hide-mobile">
+      <button class="btn btn-ghost btn-sm" id="retake">Retake assessment</button>
+    </div>
+  </div>
+
+  <div class="profile-grid">
+    <!-- LEFT — meaning, cost, triggers, replacement -->
+    <div class="stack-lg">
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>What this pattern means</span>
+        <p class="meaning" id="p-meaning" style="margin-top:14px;">—</p>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>What it is costing you</span>
+        <p style="margin-top:14px;" id="p-cost" class="muted">—</p>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>What triggers it</span>
+        <ul class="triggers" id="p-triggers"></ul>
+      </div>
+
+      <div class="card card-hl">
+        <span class="kicker"><span class="dot"></span>The replacement behaviour</span>
+        <p class="meaning" id="p-replacement" style="margin-top:14px;">—</p>
+        <p class="muted" style="margin-top:14px;">This is the new pattern you will train. Your daily Pattern Breakers and weekly Golden Challenges are built around it.</p>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>Recommended first challenge</span>
+        <p class="meaning" id="p-first" style="margin-top:14px;">—</p>
+        <div class="row" style="margin-top: 18px;">
+          <span class="tag tag-gold">Today</span>
+          <span class="tag">Real-world rep</span>
+          <span class="tag">Under 10 minutes</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT — secondary, scores, frequency -->
+    <div class="stack-lg">
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>Secondary pattern</span>
+        <div class="secondary-row">
+          <div class="av" id="p-sec-av">—</div>
+          <div>
+            <div style="font-family: var(--font-display); font-size: 22px;" id="p-sec-name">—</div>
+            <div class="muted" style="font-size: 13px;" id="p-sec-one">—</div>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:18px; font-size: 14px;">Your secondary pattern shows up under different conditions. We will weave a smaller stream of breakers for it into your programme.</p>
+      </div>
+
+      <div class="card">
+        <div class="row between">
+          <span class="kicker"><span class="dot"></span>Score areas</span>
+          <span class="muted mono" style="font-size: 12px;">0 — 100</span>
+        </div>
+        <div id="scores" style="margin-top:18px;"></div>
+        <div class="row between" style="margin-top: 16px;">
+          <span class="muted" style="font-size: 13px;">Strongest: <span id="strongest" class="gold"></span></span>
+          <span class="muted" style="font-size: 13px;">Weakest: <span id="weakest" style="color:#fca5a5;"></span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>Pattern frequency baseline</span>
+        <div class="freq-card" style="margin-top:18px;">
+          <div>
+            <div class="freq-num gold" id="p-freq">—</div>
+            <div class="muted" style="font-size: 13px; margin-top: 6px;">times per week (estimated)</div>
+          </div>
+          <div class="muted" style="font-size: 14px; line-height: 1.5;">
+            We recalibrate this weekly using your reflections. The number you want to see drop — week after week — is this one.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RECOMMENDED PROGRAMME -->
+  <div class="reco-banner" data-reveal>
+    <div>
+      <span class="eyebrow">Recommended programme</span>
+      <h3 style="margin-top: 12px;" id="reco-name">—</h3>
+      <p class="muted" style="margin-top: 10px; max-width: 50ch;" id="reco-summary">—</p>
+    </div>
+    <div class="row" style="gap: 12px;">
+      <a href="./plans.html" class="btn btn-ghost">See all programmes</a>
+      <a href="./plans.html" class="btn btn-primary" id="reco-cta">Continue with this programme <span class="arrow">→</span></a>
+    </div>
+  </div>
+
+  <div class="spacer-lg"></div>
+</main>
+
+<div data-footer></div>
+
+<script src="./assets/app.js"></script>
+<script>
+  // ensure profile exists; if visited directly without assessment, seed demo
+  let profile = PtP.load('profile');
+  if (!profile) { PtP.seedDemoIfEmpty(); profile = PtP.load('profile'); }
+
+  const primary = PtP.PATTERNS[profile.primary];
+  const secondary = PtP.PATTERNS[profile.secondary];
+
+  document.getElementById('p-title').textContent = primary.name;
+  document.getElementById('p-one').textContent   = primary.one;
+  document.getElementById('p-meaning').textContent = primary.one + ' Under pressure or ambiguity, this is the behaviour that runs you before you choose another one.';
+  document.getElementById('p-cost').textContent  = primary.cost;
+  document.getElementById('p-replacement').textContent = primary.replacement;
+  document.getElementById('p-first').textContent = primary.firstChallenge;
+
+  const triggers = primary.triggers.split(', ');
+  const tWrap = document.getElementById('p-triggers');
+  triggers.forEach(t => {
+    const li = document.createElement('li');
+    li.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+    tWrap.appendChild(li);
+  });
+
+  document.getElementById('p-sec-name').textContent = secondary.name;
+  document.getElementById('p-sec-one').textContent  = secondary.one;
+  document.getElementById('p-sec-av').textContent   = secondary.name.split(' ').map(w => w[0]).slice(-2).join('');
+
+  // scores
+  const scoresEl = document.getElementById('scores');
+  let strongest = { name:'', val: -1 }, weakest = { name:'', val: 999 };
+  PtP.SCORE_AREAS.forEach(area => {
+    const v = profile.scores[area];
+    if (v > strongest.val) strongest = { name: area, val: v };
+    if (v < weakest.val) weakest = { name: area, val: v };
+    const row = document.createElement('div');
+    row.className = 'score-row';
+    row.innerHTML = `
+      <div class="name">${area}</div>
+      <div class="score-bar"><span class="fill" style="width: ${v}%;"></span></div>
+      <div class="num">${v}</div>
+    `;
+    scoresEl.appendChild(row);
+  });
+  document.getElementById('strongest').textContent = strongest.name;
+  document.getElementById('weakest').textContent = weakest.name;
+  document.getElementById('p-freq').textContent = profile.frequency;
+
+  // reco
+  const reco = PtP.PROGRAMMES[profile.recommendedProgramme];
+  document.getElementById('reco-name').textContent = reco.name + ' — £' + reco.price;
+  document.getElementById('reco-summary').textContent = reco.summary + ' Recommended based on the depth of pattern signatures in your assessment.';
+  document.getElementById('reco-cta').href = './plans.html?recommended=' + profile.recommendedProgramme;
+
+  document.getElementById('retake').addEventListener('click', () => location.href = './assessment.html');
+</script>
+</body>
+</html>

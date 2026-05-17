@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<title>Reflection — Pattern to Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/styles.css">
+<style>
+  .reflect-shell { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
+  @media (max-width: 980px) { .reflect-shell { grid-template-columns: 1fr; } }
+  .tab-row { display: flex; gap: 6px; padding: 6px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); width: fit-content; }
+  .tab-row button { padding: 8px 14px; border-radius: 999px; color: var(--text-muted); font-size: 13px; }
+  .tab-row button[aria-selected="true"] { background: var(--gold); color: #0b0f1a; font-weight: 600; }
+
+  .qlist { display: grid; gap: 16px; }
+  .q { padding: 14px 18px; border: 1px solid var(--line-soft); border-radius: 12px; }
+  .q .head { font-size: 14px; color: var(--text); }
+  .q textarea { width: 100%; margin-top: 10px; min-height: 70px; background: transparent; border: 0; outline: none; color: var(--text); font: inherit; resize: vertical; line-height: 1.5; }
+  .q textarea::placeholder { color: var(--text-faint); }
+  .q:focus-within { border-color: var(--gold-line); }
+
+  .recent { display: grid; gap: 10px; margin-top: 16px; }
+  .recent-item { padding: 12px 14px; border: 1px solid var(--line-soft); border-radius: 10px; }
+  .recent-item .meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-faint); margin-bottom: 6px; }
+  .voice-row { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+  .voice-row .meta { color: var(--text-muted); font-size: 13px; }
+
+  .summary-card { padding: 22px; border: 1px solid var(--gold-line); background: var(--gold-soft); border-radius: 14px; margin-top: 20px; }
+  .summary-card .label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-1); }
+  .summary-card .text { font-family: var(--font-display); font-size: 18px; line-height: 1.4; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+
+<main class="wrap section-tight">
+
+  <div class="row between" style="margin-bottom: 28px;">
+    <div>
+      <span class="eyebrow">Reflection</span>
+      <h1 style="margin-top: 14px;">One minute. <em class="gold-em">Honest specifics.</em></h1>
+    </div>
+    <div class="tab-row" role="tablist">
+      <button role="tab" aria-selected="true"  data-tab="daily">Daily</button>
+      <button role="tab" aria-selected="false" data-tab="weekly">Weekly</button>
+      <button role="tab" aria-selected="false" data-tab="monthly">Monthly</button>
+    </div>
+  </div>
+
+  <!-- DAILY -->
+  <section class="reflect-shell" id="tab-daily">
+    <div class="composer">
+      <span class="kicker"><span class="dot"></span><span id="daily-day">Day —</span> · 60 seconds</span>
+      <p class="prompt" style="margin-top: 12px;" id="daily-q">—</p>
+      <textarea id="daily-text" placeholder="Specific situations, not feelings. The more specific, the more useful next week."></textarea>
+      <div class="voice-row">
+        <button class="voice" id="voice-toggle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+          Speak it instead
+        </button>
+        <span class="meta">Voice transcribed and summarised by AI.</span>
+      </div>
+      <div class="row-foot">
+        <span class="muted" style="font-size: 13px;">Streak: <b id="streak-num">—</b> days</span>
+        <button class="btn btn-primary" id="save-daily">Save reflection <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="kicker"><span class="dot"></span>Recent daily reflections</span>
+      <div class="recent" id="recent-daily" style="margin-top: 14px;"></div>
+    </div>
+  </section>
+
+  <!-- WEEKLY -->
+  <section class="reflect-shell" id="tab-weekly" style="display:none;">
+    <div class="composer">
+      <span class="kicker"><span class="dot"></span>Weekly reflection · 3 minutes</span>
+      <p class="prompt" style="margin-top: 12px;">Five questions. Your honest answers train the system.</p>
+      <div class="qlist" style="margin-top: 22px;" id="weekly-list"></div>
+
+      <div class="row-foot">
+        <button class="voice"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>Speak it instead</button>
+        <button class="btn btn-primary" id="save-weekly">Save weekly reflection <span class="arrow">→</span></button>
+      </div>
+
+      <div id="weekly-summary" class="summary-card" style="display:none;">
+        <div class="label">AI-generated summary · returned each Sunday</div>
+        <div class="text" id="weekly-summary-text"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="kicker"><span class="dot"></span>Why we do this</span>
+      <p class="muted" style="margin-top: 12px;">The weekly reflection produces the data that drives every score on your Progress page. It is also the highest-leverage 3 minutes of your week.</p>
+      <div class="divider"></div>
+      <span class="kicker"><span class="dot"></span>Recent weekly summaries</span>
+      <div class="recent" id="recent-weekly" style="margin-top: 14px;"></div>
+    </div>
+  </section>
+
+  <!-- MONTHLY -->
+  <section class="reflect-shell" id="tab-monthly" style="display:none;">
+    <div class="composer">
+      <span class="kicker"><span class="dot"></span>Monthly reflection · 8 minutes</span>
+      <p class="prompt" style="margin-top: 12px;">A bigger pause. Use this to update your Identity Statement.</p>
+      <div class="qlist" style="margin-top: 22px;" id="monthly-list"></div>
+
+      <div class="row-foot">
+        <button class="voice"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>Speak it instead</button>
+        <button class="btn btn-primary" id="save-monthly">Save monthly reflection <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="kicker"><span class="dot"></span>Identity statement evolution</span>
+      <p class="muted" style="margin-top: 12px; font-size: 14px;">Day 0</p>
+      <p style="font-family: var(--font-display); font-size: 22px; margin-top: 6px;" id="ident-d0">—</p>
+      <div class="divider"></div>
+      <p class="muted" style="font-size: 14px;">Latest</p>
+      <textarea id="ident-latest" class="textarea" style="margin-top: 8px;" placeholder="Rewrite your identity statement now…"></textarea>
+      <div style="margin-top: 12px;">
+        <button class="btn btn-ghost btn-sm" id="save-ident">Save new statement</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="spacer-lg"></div>
+</main>
+
+<div data-footer></div>
+
+<script src="./assets/app.js"></script>
+<script>
+  if (!PtP.load('profile')) PtP.seedDemoIfEmpty();
+  const summit = PtP.load('summit');
+  const reflections = PtP.load('reflections') || { daily: [], weekly: [], monthly: [] };
+  const progress = PtP.load('progress') || { weeks: [] };
+
+  // --- DAILY ---
+  const dailyPrompts = [
+    'Where did the old pattern show up today?',
+    'What rep did you complete?',
+    'What almost pulled you backwards?',
+    'What did you do differently?'
+  ];
+  const dailyQ = dailyPrompts[summit.dayNumber % dailyPrompts.length];
+  document.getElementById('daily-q').textContent = dailyQ;
+  document.getElementById('daily-day').textContent = 'Day ' + summit.dayNumber;
+  document.getElementById('streak-num').textContent = (progress.weeks.slice(-1)[0]?.reflectionStreak ?? 0);
+
+  document.getElementById('save-daily').addEventListener('click', () => {
+    const t = document.getElementById('daily-text').value.trim();
+    if (!t) { alert('Two sentences will do.'); return; }
+    PtP.submitReflection('daily', { q: dailyQ, text: t });
+    document.getElementById('daily-text').value = '';
+    renderRecent();
+    alert('Saved. See you tomorrow.');
+  });
+
+  function renderRecent() {
+    const r = (PtP.load('reflections') || {}).daily || [];
+    const wrap = document.getElementById('recent-daily');
+    wrap.innerHTML = '';
+    r.slice(-6).reverse().forEach(e => {
+      wrap.innerHTML += `
+        <div class="recent-item">
+          <div class="meta"><span>${new Date(e.at).toLocaleDateString(undefined, { weekday:'short', day:'numeric', month:'short'})}</span><span>${e.q || ''}</span></div>
+          <div style="font-size: 14px;">${e.text || ''}</div>
+        </div>`;
+    });
+    if (!r.length) wrap.innerHTML = '<div class="muted" style="font-size: 13px;">No daily reflections yet.</div>';
+  }
+  renderRecent();
+
+  // --- WEEKLY ---
+  const weeklyQs = [
+    'What pattern showed up most this week?',
+    'Where did the old behaviour try to take over?',
+    'What action did you take anyway?',
+    'What felt uncomfortable but important?',
+    'What will you repeat next week?'
+  ];
+  const wWrap = document.getElementById('weekly-list');
+  weeklyQs.forEach((q, i) => {
+    wWrap.innerHTML += `
+      <div class="q"><div class="head">${i+1}. ${q}</div><textarea id="w-${i}" placeholder="Specifics."></textarea></div>`;
+  });
+  document.getElementById('save-weekly').addEventListener('click', () => {
+    const answers = weeklyQs.map((_, i) => document.getElementById('w-'+i).value.trim());
+    if (answers.some(a => !a)) { alert('Each prompt needs at least one sentence.'); return; }
+    PtP.submitReflection('weekly', { answers });
+    // synthesise a fake AI summary for the prototype
+    const text = `You are noticing the pattern earlier and acting on it 1–2× more often than last week. Authority and Discipline both moved up. Watch for slippage on Tuesday — three weeks in a row that is when the old behaviour tries to come back. Repeat next week: ${answers[4].slice(0, 60)}…`;
+    document.getElementById('weekly-summary').style.display = 'block';
+    document.getElementById('weekly-summary-text').textContent = '"' + text + '"';
+    renderRecentWeekly();
+  });
+  function renderRecentWeekly() {
+    const r = (PtP.load('reflections') || {}).weekly || [];
+    const wrap = document.getElementById('recent-weekly');
+    wrap.innerHTML = '';
+    r.slice(-3).reverse().forEach(e => {
+      const summary = e.summary || (e.answers ? e.answers[0] : '');
+      wrap.innerHTML += `
+        <div class="recent-item">
+          <div class="meta"><span>${new Date(e.at).toLocaleDateString()}</span><span>Weekly</span></div>
+          <div style="font-size: 14px;">${summary || ''}</div>
+        </div>`;
+    });
+    if (!r.length) wrap.innerHTML = '<div class="muted" style="font-size: 13px;">No weekly reflections yet.</div>';
+  }
+  renderRecentWeekly();
+
+  // --- MONTHLY ---
+  const monthlyQs = [
+    'What pattern has weakened?',
+    'What new behaviour is stronger?',
+    'What changed at work?',
+    'What changed in life?',
+    'What is your next standard?'
+  ];
+  const mWrap = document.getElementById('monthly-list');
+  monthlyQs.forEach((q, i) => {
+    mWrap.innerHTML += `
+      <div class="q"><div class="head">${i+1}. ${q}</div><textarea id="m-${i}" placeholder=""></textarea></div>`;
+  });
+  document.getElementById('save-monthly').addEventListener('click', () => {
+    const answers = monthlyQs.map((_, i) => document.getElementById('m-'+i).value.trim());
+    if (answers.every(a => !a)) { alert('Add a few specifics first.'); return; }
+    PtP.submitReflection('monthly', { answers });
+    alert('Monthly reflection saved.');
+  });
+
+  const ident = PtP.load('identity') || {};
+  document.getElementById('ident-d0').textContent = ident.day0 || '—';
+  document.getElementById('ident-latest').value = ident.dayLatest || '';
+  document.getElementById('save-ident').addEventListener('click', () => {
+    const i = PtP.load('identity') || {};
+    i.dayLatest = document.getElementById('ident-latest').value.trim();
+    PtP.save('identity', i);
+    alert('Identity statement updated.');
+  });
+
+  // tabs
+  document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-selected','false'));
+    b.setAttribute('aria-selected','true');
+    ['daily','weekly','monthly'].forEach(t => {
+      document.getElementById('tab-'+t).style.display = b.dataset.tab === t ? 'grid' : 'none';
+    });
+  }));
+</script>
+</body>
+</html>

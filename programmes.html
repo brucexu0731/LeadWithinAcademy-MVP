@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<title>Choose your programme — Pattern to Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/styles.css">
+<style>
+  .reco-strip { display: flex; gap: 14px; align-items: center; padding: 14px 18px; border: 1px solid var(--gold-line); background: var(--gold-soft); border-radius: 14px; color: var(--gold-1); font-size: 14px; }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+
+<main class="wrap section-tight">
+
+  <div data-reveal style="max-width: 760px;">
+    <span class="eyebrow">The guided programmes</span>
+    <h1 style="margin-top: 18px;">Choose the climb. <em class="gold-em">We walk it with you.</em></h1>
+    <p class="muted" style="margin-top: 18px; font-size: 18px; max-width: 60ch;">All three programmes use the same Pattern to Performance system. The only difference is how deep you go and how much real-world repetition you build before the climb ends.</p>
+  </div>
+
+  <div id="reco-strip" class="reco-strip" style="margin-top: 32px; display:none;">
+    <span class="badge"><span class="dot"></span>Based on your profile</span>
+    <span id="reco-text">—</span>
+  </div>
+
+  <div class="plans" style="margin-top: 56px;" data-reveal>
+
+    <!-- 30-day -->
+    <div class="plan">
+      <div class="name">30-Day Pattern Sprint</div>
+      <div class="muted" style="margin-top: 6px; font-size: 14px;">For identifying the pattern and starting the reset.</div>
+      <div class="price"><span class="cur">£</span>497<span class="per">one-off</span></div>
+      <ul>
+        <li>Pattern Assessment + Pattern Profile</li>
+        <li>30-day guided summit journey</li>
+        <li>Daily Pattern Breakers</li>
+        <li>4 Golden Challenges</li>
+        <li>Pattern Pack — 6 to 10 peers, same primary pattern</li>
+        <li>Weekly group touchpoint with Ben</li>
+        <li>Reflection system (daily / weekly)</li>
+        <li>End-of-month group review</li>
+      </ul>
+      <div class="cta"><button class="btn btn-ghost" data-buy="30">Choose Sprint</button></div>
+    </div>
+
+    <!-- 60-day -->
+    <div class="plan">
+      <div class="name">60-Day Pattern Builder</div>
+      <div class="muted" style="margin-top: 6px; font-size: 14px;">For turning awareness into repeated behaviour change.</div>
+      <div class="price"><span class="cur">£</span>897<span class="per">one-off</span></div>
+      <ul>
+        <li>Everything in 30-Day Sprint</li>
+        <li>8 Golden Challenges (witnessed)</li>
+        <li>Midpoint reflection review</li>
+        <li>Pattern frequency tracking</li>
+        <li>Stronger 1:1 accountability touchpoints</li>
+        <li>Month 2 progress review</li>
+        <li>Updated Pattern Profile at day 60</li>
+      </ul>
+      <div class="cta"><button class="btn btn-ghost" data-buy="60">Choose Builder</button></div>
+    </div>
+
+    <!-- 90-day flagship -->
+    <div class="plan plan-flagship">
+      <div class="name">90-Day Pattern Transformation</div>
+      <div class="muted" style="margin-top: 6px; font-size: 14px;">For replacing the old pattern with a new personal and professional standard.</div>
+      <div class="price"><span class="cur">£</span>1,497<span class="per">one-off</span></div>
+      <ul>
+        <li>Everything in 60-Day Builder</li>
+        <li>12 Golden Challenges across the full climb</li>
+        <li>All six summit stages — Basecamp to Summit</li>
+        <li>Final reassessment (full re-score)</li>
+        <li>Final Transformation Report (personalised)</li>
+        <li>Future-Self letter delivered at day 90</li>
+        <li>Certificate of completion + new Identity Statement</li>
+        <li>Next 90-day plan, signed off with Ben</li>
+      </ul>
+      <div class="cta"><button class="btn btn-primary" data-buy="90">Choose Transformation</button></div>
+    </div>
+
+  </div>
+
+  <!-- Differences -->
+  <div class="card" style="margin-top: 64px; padding: 40px;" data-reveal>
+    <span class="eyebrow">How they differ</span>
+    <h3 style="margin-top: 14px;">Same system. Different depth.</h3>
+    <div style="overflow-x: auto; margin-top: 24px;">
+      <table style="width: 100%; border-collapse: collapse; min-width: 640px;">
+        <thead>
+          <tr style="text-align: left; color: var(--text-faint); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;">
+            <th style="padding: 14px 8px; border-bottom: 1px solid var(--line);">What you get</th>
+            <th style="padding: 14px 8px; border-bottom: 1px solid var(--line);">Sprint</th>
+            <th style="padding: 14px 8px; border-bottom: 1px solid var(--line);">Builder</th>
+            <th style="padding: 14px 8px; border-bottom: 1px solid var(--line);">Transformation</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 14px;">
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Daily Pattern Breakers</td><td>30</td><td>60</td><td class="gold">90</td></tr>
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Golden Challenges</td><td>4</td><td>8</td><td class="gold">12</td></tr>
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Reflection cadence</td><td>Daily + weekly</td><td>Daily + weekly + midpoint</td><td class="gold">Daily + weekly + monthly</td></tr>
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Pattern Pack access</td><td>30 days</td><td>60 days</td><td class="gold">90 days</td></tr>
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Group touchpoints with Ben</td><td>4</td><td>8</td><td class="gold">12</td></tr>
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Final reassessment</td><td>—</td><td>Updated profile</td><td class="gold">Full re-score</td></tr>
+          <tr><td style="padding: 14px 8px; border-bottom: 1px solid var(--line-soft);">Final Transformation Report</td><td>—</td><td>—</td><td class="gold">Yes — personalised</td></tr>
+          <tr><td style="padding: 14px 8px;">Future-Self letter + Certificate</td><td>—</td><td>—</td><td class="gold">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FAQ-lite -->
+  <div class="grid cols-2" style="margin-top: 64px; gap: 32px;" data-reveal>
+    <div class="card">
+      <h4>Is this 1:1 coaching?</h4>
+      <p class="muted" style="margin-top: 10px;">No. It is a guided behavioural programme with cohort accountability, founder-led group touchpoints, and a small Pattern Pack of peers running the same pattern. 1:1 is available separately for senior leaders.</p>
+    </div>
+    <div class="card">
+      <h4>Who is this not for?</h4>
+      <p class="muted" style="margin-top: 10px;">Generic self-help seekers, students, anyone looking for a £29 habit tracker, or anyone who wants insight without doing real-world reps.</p>
+    </div>
+    <div class="card">
+      <h4>What if I miss a day?</h4>
+      <p class="muted" style="margin-top: 10px;">Programmes are designed to absorb missed days. The system tracks pattern frequency, not perfection. Two missed days do not reset the climb.</p>
+    </div>
+    <div class="card">
+      <h4>How is this different from Headspace, BetterUp, or coaching apps?</h4>
+      <p class="muted" style="margin-top: 10px;">Those teach. We train. Every week you complete a witnessed Golden Challenge in your real environment. You do not consume content. You build proof.</p>
+    </div>
+  </div>
+
+  <div class="spacer-lg"></div>
+</main>
+
+<div data-footer></div>
+
+<script src="./assets/app.js"></script>
+<script>
+  // pre-select recommendation
+  const params = new URLSearchParams(location.search);
+  const reco = params.get('recommended');
+  const profile = PtP.load('profile');
+  if (profile && profile.recommendedProgramme) {
+    const programme = PtP.PROGRAMMES[profile.recommendedProgramme];
+    document.getElementById('reco-strip').style.display = 'flex';
+    document.getElementById('reco-text').textContent =
+      `Based on your Pattern Profile, we recommend the ${programme.name}. You can choose anything below.`;
+  }
+
+  document.querySelectorAll('[data-buy]').forEach(b => b.addEventListener('click', async () => {
+    const id = b.dataset.buy;
+    // STRIPE: replace with Stripe Checkout / Payment Link redirect
+    await PtP.startCheckout(id);
+    location.href = './dashboard.html';
+  }));
+</script>
+</body>
+</html>

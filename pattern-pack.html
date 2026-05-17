@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<title>Pattern Pack — Pattern to Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/styles.css">
+<style>
+  .pack-shell { display: grid; grid-template-columns: 1fr 320px; gap: 28px; }
+  @media (max-width: 980px) { .pack-shell { grid-template-columns: 1fr; } }
+
+  .prompt-card { padding: 28px; border: 1px solid var(--gold-line); background: linear-gradient(180deg, rgba(201,169,97,0.06), transparent); border-radius: var(--radius-lg); }
+  .prompt-card .label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-1); }
+  .prompt-card .q { font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 28px); line-height: 1.3; margin-top: 10px; }
+
+  .feed-item { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .feed-item + .feed-item { margin-top: 14px; }
+  .feed-head { display: flex; align-items: center; gap: 12px; }
+  .feed-head .who { font-weight: 600; font-size: 14px; }
+  .feed-head .meta { font-size: 12px; color: var(--text-faint); }
+  .feed-text { margin-top: 12px; font-size: 15px; line-height: 1.55; }
+  .feed-tags { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .feed-actions { margin-top: 14px; display: flex; gap: 14px; align-items: center; }
+  .feed-actions button { padding: 6px 12px; border-radius: 999px; background: transparent; border: 1px solid var(--line); color: var(--text-muted); font-size: 13px; transition: color var(--t-fast), border-color var(--t-fast); }
+  .feed-actions button:hover { color: var(--gold-1); border-color: var(--gold-line); }
+  .feed-actions button[aria-pressed="true"] { color: var(--gold-1); border-color: var(--gold-line); background: var(--gold-soft); }
+
+  .recog-card { display: flex; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--line-soft); border-radius: 12px; }
+  .recog-card + .recog-card { margin-top: 8px; }
+  .recog-card .av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--surface-3), var(--surface-2)); display: grid; place-items: center; color: var(--gold-1); font-weight: 600; font-size: 14px; flex-shrink: 0; }
+  .recog-card .nm { font-weight: 500; font-size: 14px; }
+  .recog-card .why { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .recog-card .badge-tag { font-size: 11px; padding: 4px 8px; border-radius: 999px; background: var(--gold-soft); color: var(--gold-1); border: 1px solid var(--gold-line); margin-left: auto; }
+
+  .composer-pack { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .composer-pack textarea { width: 100%; background: transparent; border: 0; outline: none; color: var(--text); font: inherit; resize: vertical; line-height: 1.5; min-height: 80px; }
+  .composer-pack textarea::placeholder { color: var(--text-faint); }
+  .composer-pack .row { justify-content: space-between; margin-top: 10px; }
+  .tag-pick { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag-pick button { padding: 5px 10px; border-radius: 999px; background: transparent; border: 1px solid var(--line); color: var(--text-muted); font-size: 12px; }
+  .tag-pick button[aria-pressed="true"] { background: var(--gold-soft); color: var(--gold-1); border-color: var(--gold-line); }
+
+  .pack-meta { display: grid; gap: 8px; }
+  .pack-meta .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; }
+  .pack-meta .row:last-child { border-bottom: 0; }
+  .pack-meta .row .v { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+
+<main class="wrap section-tight">
+
+  <div class="row between" style="align-items: flex-end;">
+    <div>
+      <span class="eyebrow">Your Pattern Pack</span>
+      <h1 style="margin-top: 14px;" id="pack-title">— Pack</h1>
+      <p class="muted" style="margin-top: 14px; max-width: 56ch;">Six to ten people running the same primary pattern. Small enough to be honest. No public rankings, no comparison games. Just witnessed reps and supportive specifics.</p>
+    </div>
+    <span class="pill pill-active hide-mobile"><span class="dot"></span>Active this week</span>
+  </div>
+
+  <div class="spacer"></div>
+
+  <section class="pack-shell">
+
+    <!-- Main column -->
+    <div>
+      <!-- Weekly prompt -->
+      <div class="prompt-card">
+        <div class="label">This week's pack prompt</div>
+        <div class="q" id="weekly-prompt">—</div>
+        <div class="composer-pack" style="margin-top: 18px;">
+          <textarea id="reply-text" placeholder="Specifics, not feelings. The tag below helps the system surface this to the right people."></textarea>
+          <div class="row">
+            <div class="tag-pick">
+              <button data-tag="brave-rep">Brave Rep</button>
+              <button data-tag="useful-help">Helped someone</button>
+              <button data-tag="follow-through">Follow-through</button>
+              <button data-tag="slipped">I slipped</button>
+            </div>
+            <button class="btn btn-primary btn-sm" id="post-reply">Share with the pack <span class="arrow">→</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feed -->
+      <div style="margin-top: 28px;">
+        <span class="eyebrow">Pack feed · this week</span>
+        <div id="feed" style="margin-top: 18px;"></div>
+      </div>
+    </div>
+
+    <!-- Side column -->
+    <aside class="stack-lg">
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>Members</span>
+        <div style="margin-top: 14px;" id="members"></div>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>Recognition this week</span>
+        <p class="muted" style="font-size: 13px; margin-top: 8px;">Recognised by peer reactions. Not by score.</p>
+        <div style="margin-top: 14px;">
+          <div class="recog-card">
+            <div class="av">PR</div>
+            <div>
+              <div class="nm">Priya R.</div>
+              <div class="why">Made a hiring decision in under 8 minutes.</div>
+            </div>
+            <div class="badge-tag">Brave Rep</div>
+          </div>
+          <div class="recog-card">
+            <div class="av">JM</div>
+            <div>
+              <div class="nm">Jordan M.</div>
+              <div class="why">Sent the message to Sam without rewriting it three times.</div>
+            </div>
+            <div class="badge-tag">Follow-through</div>
+          </div>
+          <div class="recog-card">
+            <div class="av">SC</div>
+            <div>
+              <div class="nm">Sam C.</div>
+              <div class="why">Witnessed two pack members' Goldens this week.</div>
+            </div>
+            <div class="badge-tag">Most useful</div>
+          </div>
+        </div>
+        <p class="muted" style="font-size: 12px; margin-top: 14px;">No leaderboard. No public scores. Recognition only.</p>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>Pack details</span>
+        <div class="pack-meta" style="margin-top: 14px;">
+          <div class="row"><span>Pack size</span><span class="v">7 members</span></div>
+          <div class="row"><span>Primary pattern</span><span class="v" id="pack-primary">—</span></div>
+          <div class="row"><span>Founded</span><span class="v">3 weeks ago</span></div>
+          <div class="row"><span>Witnessed reps</span><span class="v">14</span></div>
+          <div class="row"><span>Active streak</span><span class="v">21 days</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="kicker"><span class="dot"></span>House rules</span>
+        <ul style="margin-top: 12px; padding: 0; list-style: none; font-size: 14px;">
+          <li style="padding: 8px 0; border-bottom: 1px solid var(--line-soft);">Specifics over advice.</li>
+          <li style="padding: 8px 0; border-bottom: 1px solid var(--line-soft);">Witness reps, do not rank them.</li>
+          <li style="padding: 8px 0; border-bottom: 1px solid var(--line-soft);">No screenshots outside the pack.</li>
+          <li style="padding: 8px 0;">Encouragement, not coaching.</li>
+        </ul>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <div class="spacer-lg"></div>
+</main>
+
+<div data-footer></div>
+
+<script src="./assets/app.js"></script>
+<script>
+  if (!PtP.load('profile')) PtP.seedDemoIfEmpty();
+  const profile = PtP.load('profile');
+  const primary = PtP.PATTERNS[profile.primary];
+  const user = PtP.load('user') || { name: 'You' };
+
+  document.getElementById('pack-title').textContent = primary.name + ' Pack';
+  document.getElementById('pack-primary').textContent = primary.name;
+
+  const prompts = {
+    overthinker:   'What did you decide this week without spending an extra hour on it?',
+    avoider:       'Which conversation did you stop avoiding this week?',
+    overexplainer: 'Where did you say less and land more?',
+    performer:     'Where did you stop performing strength and ask for what you needed?',
+    drifter:       'What did you commit to this week, and what did you remove to make space for it?',
+    pleaser:       'Where did you say no without over-explaining?',
+    silenttalent:  'Where did you put yourself forward before you felt ready?',
+    reactor:       'What pause did you take before responding this week?',
+  };
+  document.getElementById('weekly-prompt').textContent = prompts[profile.primary] || prompts.overthinker;
+
+  // members
+  const membersEl = document.getElementById('members');
+  const sample = [
+    { nm: 'Priya R.',  st: 'mid',     ic: 'PR' },
+    { nm: 'Jordan M.', st: 'senior',  ic: 'JM' },
+    { nm: 'Sam C.',    st: 'leader',  ic: 'SC' },
+    { nm: 'Dana K.',   st: 'mid',     ic: 'DK' },
+    { nm: 'Maya B.',   st: 'senior',  ic: 'MB' },
+    { nm: 'Theo H.',   st: 'mid',     ic: 'TH' },
+    { nm: 'You',       st: 'you',     ic: (user.name || 'YO').split(' ').map(w => w[0]).slice(0,2).join('') },
+  ];
+  sample.forEach(m => {
+    membersEl.innerHTML += `
+      <div class="member">
+        <div class="avatar">${m.ic}</div>
+        <div class="meta">
+          <div class="nm">${m.nm}</div>
+          <div class="sub">${m.st === 'leader' ? 'Executive' : m.st === 'senior' ? 'Senior' : m.st === 'you' ? 'Member · you' : 'Mid-career'}</div>
+        </div>
+        ${m.nm === 'You' ? '' : '<span class="pill pill-active"><span class="dot"></span>active</span>'}
+      </div>`;
+  });
+
+  // feed seed
+  const feed = [
+    { nm: 'Priya R.', ic: 'PR', when: '2h ago', tag: 'Brave Rep',
+      text: 'Made the call to drop the third candidate after 8 minutes of conversation. Two days ago I would have taken three days.',
+      reactions: { ack: 4, witnessed: 2 }, isMe: false },
+    { nm: 'Jordan M.', ic: 'JM', when: '5h ago', tag: 'Follow-through',
+      text: 'Sent the Slack to Sam without rewriting it. Three sentences. Got a clear yes back in 4 minutes.',
+      reactions: { ack: 3, witnessed: 1 }, isMe: false },
+    { nm: 'Sam C.', ic: 'SC', when: 'Yesterday', tag: 'I slipped',
+      text: 'Spent 90 minutes redrafting an email I should have sent in 6. Noticed it before midnight at least.',
+      reactions: { ack: 7, witnessed: 0 }, isMe: false },
+    { nm: 'Dana K.', ic: 'DK', when: 'Yesterday', tag: 'Brave Rep',
+      text: 'Pushed back on the deadline in the leadership review. Said "that is not realistic" and waited. Got moved to next month.',
+      reactions: { ack: 6, witnessed: 3 }, isMe: false },
+  ];
+
+  const feedEl = document.getElementById('feed');
+  function renderFeed() {
+    feedEl.innerHTML = '';
+    feed.forEach((f, i) => {
+      const isYou = f.isMe;
+      const tagCls = ({ 'Brave Rep': 'tag-gold', 'Follow-through': 'tag-gold', 'I slipped': 'tag-rose', 'Helped someone': 'tag-teal' }[f.tag] || 'tag');
+      feedEl.innerHTML += `
+        <div class="feed-item">
+          <div class="feed-head">
+            <div class="avatar">${f.ic}</div>
+            <div>
+              <div class="who">${f.nm}${isYou ? ' · you' : ''}</div>
+              <div class="meta">${f.when}</div>
+            </div>
+            <span class="tag ${tagCls}" style="margin-left: auto;">${f.tag}</span>
+          </div>
+          <div class="feed-text">${f.text}</div>
+          <div class="feed-actions">
+            <button data-react="ack" data-i="${i}">Acknowledged · ${f.reactions.ack}</button>
+            <button data-react="witnessed" data-i="${i}">I witnessed this · ${f.reactions.witnessed}</button>
+          </div>
+        </div>`;
+    });
+    feedEl.querySelectorAll('[data-react]').forEach(b => b.addEventListener('click', (e) => {
+      const i = Number(e.currentTarget.dataset.i);
+      const k = e.currentTarget.dataset.react;
+      feed[i].reactions[k] += 1;
+      renderFeed();
+    }));
+  }
+  renderFeed();
+
+  // tag picker
+  let chosenTag = null;
+  document.querySelectorAll('[data-tag]').forEach(b => b.addEventListener('click', () => {
+    const cur = b.getAttribute('aria-pressed') === 'true';
+    document.querySelectorAll('[data-tag]').forEach(x => x.setAttribute('aria-pressed','false'));
+    if (!cur) b.setAttribute('aria-pressed','true');
+    chosenTag = cur ? null : b.dataset.tag;
+  }));
+
+  document.getElementById('post-reply').addEventListener('click', () => {
+    const text = document.getElementById('reply-text').value.trim();
+    if (!text) { alert('Write a sentence first.'); return; }
+    const tagMap = { 'brave-rep': 'Brave Rep', 'useful-help': 'Helped someone', 'follow-through': 'Follow-through', 'slipped': 'I slipped' };
+    feed.unshift({
+      nm: user.name || 'You',
+      ic: (user.name || 'YO').split(' ').map(w => w[0]).slice(0,2).join(''),
+      when: 'Just now',
+      tag: tagMap[chosenTag] || 'Brave Rep',
+      text,
+      reactions: { ack: 0, witnessed: 0 },
+      isMe: true,
+    });
+    renderFeed();
+    document.getElementById('reply-text').value = '';
+    document.querySelectorAll('[data-tag]').forEach(x => x.setAttribute('aria-pressed','false'));
+    chosenTag = null;
+  });
+</script>
+</body>
+</html>
